@@ -1,0 +1,40 @@
+name: Release
+
+# Publishes @talkif/sdk to npm when a version tag (v*) is pushed.
+# Auth: npm Trusted Publishing (OIDC) — the package on npmjs.com trusts this
+# repo + workflow file; no token secret is involved. Provenance links each
+# published version to the exact commit and workflow run that built it.
+# Same mechanism as Talkif-ai/webrtc-js.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+  id-token: write # npm provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Trusted Publishing (OIDC) needs npm CLI >= 11.5.1; Node 22 bundles 10.x.
+      - run: npm install -g npm@latest
+      - run: npm ci || npm install
+      - run: npm run build
+      - run: npm test --if-present
+      - name: Check tag matches package.json version
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          pkg="$(node -p "require(\x27./package.json\x27).version")"
+          [ "$tag" = "$pkg" ] || { echo "tag v$tag != package.json $pkg"; exit 1; }
+      - name: Publish to npm
+        run: |
+          if [[ "$GITHUB_REF_NAME" == *alpha* ]]; then tag=alpha
+          elif [[ "$GITHUB_REF_NAME" == *beta* ]]; then tag=beta
+          else tag=latest; fi
+          npm publish --access public --provenance --tag "$tag"
