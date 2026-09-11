@@ -16,7 +16,11 @@ export interface CreateFlowRequest {
     definition?: Talkif.FlowDefinition | null;
     /** Description of the flow's purpose (max 1000 characters) */
     description?: string | null;
-    /** Visual builder layout (node positions, viewport). Opaque to the API; stored and returned as-is. */
+    /**
+     * Visual builder layout (node positions, viewport). Opaque to the API.
+     * When present it is stored as-is; when omitted, a default layout is
+     * generated from the definition.
+     */
     layout?: Record<string, unknown> | null;
     maxCallDuration?: Talkif.MaxCallDurationSettings | null;
     /** Display name of the flow (1-255 characters) */

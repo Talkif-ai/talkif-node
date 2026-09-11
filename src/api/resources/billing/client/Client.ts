@@ -732,14 +732,14 @@ export class BillingClient {
     public getTransactionHistory(
         request: Talkif.GetTransactionHistoryRequest = {},
         requestOptions?: BillingClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<Talkif.PaginatedResponse> {
         return core.HttpResponsePromise.fromPromise(this.__getTransactionHistory(request, requestOptions));
     }
 
     private async __getTransactionHistory(
         request: Talkif.GetTransactionHistoryRequest = {},
         requestOptions?: BillingClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<Talkif.PaginatedResponse>> {
         const { limit, offset } = request;
         const _queryParams: Record<string, unknown> = {
             limit,
@@ -772,7 +772,7 @@ export class BillingClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return { data: _response.body as Talkif.PaginatedResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
