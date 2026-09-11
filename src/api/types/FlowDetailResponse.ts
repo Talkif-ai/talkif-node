@@ -23,7 +23,10 @@ export interface FlowDetailResponse {
     description?: (string | null) | undefined;
     /** Unique identifier of the flow */
     id: string;
-    /** Visual builder layout, if the flow was edited in the builder. */
+    /**
+     * Visual builder layout (positions, viewport, UI state). Opaque to the
+     * API: stored and returned as-is.
+     */
     layout?: (Record<string, unknown> | null) | undefined;
     maxCallDuration?: (Talkif.MaxCallDurationSettings | null) | undefined;
     /** Display name of the flow */

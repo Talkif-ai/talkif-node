@@ -18,7 +18,11 @@ export interface LlmServiceDefinition {
     priorityTier?: (boolean | null) | undefined;
     /** Provider identifier */
     provider: string;
-    /** Reasoning/thinking effort level. Only accepted by models that support reasoning, and only with a value that model lists as valid; anything else is ignored. */
+    /**
+     * Reasoning/thinking effort level. Only accepted by models that support
+     * reasoning, and only with a value that model lists as valid; anything
+     * else is ignored.
+     */
     reasoningEffort?: (string | null) | undefined;
     /** Sampling temperature (0.0 - 2.0) */
     temperature?: (number | null) | undefined;

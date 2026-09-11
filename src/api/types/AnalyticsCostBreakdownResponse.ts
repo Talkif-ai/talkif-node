@@ -12,6 +12,10 @@ export interface AnalyticsCostBreakdownResponse {
     byCategory: Talkif.CategoryBreakdown[];
     /** Cost breakdown by flow */
     byFlow: Talkif.FlowCostBreakdown[];
+    /**
+     * Individual calls with per-category breakdown, for drill-down.
+     * Ordered by created_at DESC, limited to the most recent calls in the period.
+     */
     calls: Talkif.CallCostDetail[];
     /** End of the reporting period */
     endDate: string;

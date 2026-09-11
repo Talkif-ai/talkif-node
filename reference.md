@@ -453,7 +453,7 @@ await client.billing.getInvoice({
 </dl>
 </details>
 
-<details><summary><code>client.billing.<a href="/src/api/resources/billing/client/Client.ts">getTransactionHistory</a>({ ...params }) -> void</code></summary>
+<details><summary><code>client.billing.<a href="/src/api/resources/billing/client/Client.ts">getTransactionHistory</a>({ ...params }) -> Talkif.PaginatedResponse</code></summary>
 <dl>
 <dd>
 
@@ -918,9 +918,11 @@ await client.calls.analyzeCall({
 <dl>
 <dd>
 
-Returns a time-limited presigned URL for recording playback. Fetch the audio directly from that URL.
+Returns a time-limited presigned URL for recording playback. Fetch the
+audio directly from that URL.
 
-Requires the call to belong to the account and to have `recordingStatus = ready`; recording must be enabled for the account.
+Requires the call to belong to the account and to have
+`recordingStatus = ready`; recording must be enabled for the account.
 </dd>
 </dl>
 </dd>
