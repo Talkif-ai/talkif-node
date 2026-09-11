@@ -119,7 +119,7 @@ export class ContactsClient {
                 return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/api/v1/contacts");
             },
         );
-        let _offset = request?.offset != null ? request?.offset : 1;
+        let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
         return new core.Page<Talkif.Contact, Talkif.ContactListResponse>({
             response: dataWithRawResponse.data,
@@ -990,7 +990,7 @@ export class ContactsClient {
                 );
             },
         );
-        let _offset = request?.offset != null ? request?.offset : 1;
+        let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
         return new core.Page<Talkif.CallResponse, Talkif.CallListResponse>({
             response: dataWithRawResponse.data,

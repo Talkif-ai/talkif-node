@@ -3,7 +3,9 @@
 /**
  * Structured HTTP request shape.
  *
- * `pathParams`, `queryParams`, and `body` are each JSON Schema objects. Parameter names MUST be unique across the three — the name decides which HTTP location a value is sent in.
+ * `pathParams`, `queryParams`, and `body` are each JSON Schema objects.
+ * Parameter names MUST be unique across the three — the name decides which
+ * HTTP location a value is sent in.
  */
 export interface RequestSchema {
     /** JSON Schema for the request body. Sent as JSON for non-GET methods. Empty object for GET. */

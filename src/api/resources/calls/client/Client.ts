@@ -542,9 +542,11 @@ export class CallsClient {
     }
 
     /**
-     * Returns a time-limited presigned URL for recording playback. Fetch the audio directly from that URL.
+     * Returns a time-limited presigned URL for recording playback. Fetch the
+     * audio directly from that URL.
      *
-     * Requires the call to belong to the account and to have `recordingStatus = ready`; recording must be enabled for the account.
+     * Requires the call to belong to the account and to have
+     * `recordingStatus = ready`; recording must be enabled for the account.
      *
      * @param {Talkif.GetCallRecordingRequest} request
      * @param {CallsClient.RequestOptions} requestOptions - Request-specific configuration.

@@ -12,7 +12,11 @@ export interface FlowTemplate {
     createdAt: string;
     /** User who created this template */
     createdBy?: (string | null) | undefined;
-    /** Flow definition the template instantiates. */
+    /**
+     * Runtime FlowDefinition (initialNode + services + nodes). This is what
+     * instantiation copies into the new flow's definition. Null on legacy
+     * templates that only carry builder nodes/edges.
+     */
     definition?: (Record<string, unknown> | null) | undefined;
     /** Brief description of what the template does */
     description?: (string | null) | undefined;

@@ -882,10 +882,18 @@ describe("BillingClient", () => {
         const server = mockServerPool.createServer();
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        server.mockEndpoint().get("/api/v1/billing/transactions").respondWith().statusCode(200).build();
+        const rawResponseBody = { meta: { limit: 20, offset: 0, total: 142 } };
+
+        server
+            .mockEndpoint()
+            .get("/api/v1/billing/transactions")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
 
         const response = await client.billing.getTransactionHistory();
-        expect(response).toEqual(undefined);
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get_transaction_history (2)", async () => {

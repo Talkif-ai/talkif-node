@@ -8,7 +8,7 @@ export interface VoiceDto {
     category?: (string | null) | undefined;
     /** Voice description */
     description?: (string | null) | undefined;
-    /** True for voices no longer recommended for new flows. */
+    /** Whether this is a legacy voice */
     isLegacy: boolean;
     /** Labels/tags (e.g., gender, accent) */
     labels: Record<string, unknown>;

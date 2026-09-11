@@ -3,13 +3,14 @@
 import type * as Talkif from "../index.js";
 
 /**
- * The canonical flow definition — single source of truth for flow logic, shared by the API and the visual builder.
+ * The canonical flow definition — single source of truth for flow logic,
+ * shared by the API and the visual builder.
  *
  * Visual nodes (LLM, TTS, STT, prompt, end_call) collapse into properties:
  * - Service nodes -> `services.*`
  * - Prompt nodes -> `agent.prompt`
  * - Action nodes -> `agent.functions[]`
- * - Edges are implicit — relationships are expressed as data, not connections
+ * - Edges are implicit — relationships expressed as data, not connections
  */
 export interface FlowDefinition {
     /** Node ID where execution begins (must reference a main_agent node) */

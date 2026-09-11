@@ -3,9 +3,14 @@
 import type * as Talkif from "../index.js";
 
 /**
- * Agent node definition. Represents a conversational agent in the flow.
+ * Agent node definition
  *
- * The entry agent (`main_agent`) carries the call's `systemPrompt`; every agent carries its own `agentPrompt`. The system prompt is global to the call and persists across transitions, so non-entry agents must not set one (validation rejects it).
+ * Represents a conversational agent in the flow.
+ *
+ * The entry agent (`main_agent`) carries the call's `systemPrompt`; every
+ * agent carries its own `agentPrompt`. The system prompt is global to the
+ * call and persists across transitions, so non-entry agents must not set
+ * one (validation rejects it).
  */
 export interface AgentDefinition {
     /**
@@ -16,8 +21,7 @@ export interface AgentDefinition {
      * resolved at call time, plain text passes through. There is no prompt
      * node, no edge, and no template indirection.
      *
-     * The `taskMessage` alias keeps pre-rename stored definitions
-     * deserializable — see the note on `systemPrompt`.
+     * `taskMessage` is accepted as a deprecated alias.
      */
     agentPrompt?: (string | null) | undefined;
     /** Tool functions available to this agent (includes end_call, webhooks, etc.) */
@@ -32,7 +36,11 @@ export interface AgentDefinition {
     /**
      * The call's system prompt — set on the entry agent only.
      *
-     * Global to the call and persistent across agent transitions; non-entry agents omit it and inherit it. Validation rejects a `systemPrompt` on a non-entry agent. `roleMessage` is accepted as a deprecated alias.
+     * Global to the call and persistent across agent transitions, so
+     * non-entry agents leave this `None` and inherit it. Validation rejects
+     * a `systemPrompt` on a non-entry agent.
+     *
+     * `roleMessage` is accepted as a deprecated alias.
      */
     systemPrompt?: (string | null) | undefined;
     /** Transitions to other agents (keywords trigger agent handoff) */

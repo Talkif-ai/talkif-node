@@ -10,7 +10,7 @@ describe("PublicCallsClient", () => {
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
         const rawResponseBody = {
-            botId: "bot-abc123",
+            botId: "catflow-bot-abc123",
             callId: "550e8400-e29b-41d4-a716-446655440000",
             flowId: "550e8400-e29b-41d4-a716-446655440000",
             status: "queued",
@@ -291,7 +291,7 @@ describe("PublicCallsClient", () => {
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
         const rawRequestBody = { sdp: "v=0\r\no=- 0 0 IN IP4 127.0.0.1\r\n..." };
         const rawResponseBody = {
-            botId: "bot-abc123",
+            botId: "catflow-bot-abc123",
             sdp: "v=0\r\no=- 0 0 IN IP4 127.0.0.1\r\n...",
             sdpType: "answer",
         };

@@ -117,7 +117,7 @@ export class CampaignsClient {
                 return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/api/v1/campaigns");
             },
         );
-        let _offset = request?.offset != null ? request?.offset : 1;
+        let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
         return new core.Page<Talkif.CampaignResponse, Talkif.CampaignListResponse>({
             response: dataWithRawResponse.data,
@@ -744,7 +744,7 @@ export class CampaignsClient {
                 );
             },
         );
-        let _offset = request?.offset != null ? request?.offset : 1;
+        let _offset = request?.offset != null ? request?.offset : 0;
         const dataWithRawResponse = await list(request).withRawResponse();
         return new core.Page<Talkif.CampaignContactResponse, Talkif.CampaignContactListResponse>({
             response: dataWithRawResponse.data,
