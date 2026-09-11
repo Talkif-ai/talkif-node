@@ -1,0 +1,13 @@
+{
+    "cliVersion": "5.120.3",
+    "generatorName": "fernapi/fern-typescript-sdk",
+    "generatorVersion": "3.92.0",
+    "generatorConfig": {
+        "namespaceExport": "Talkif",
+        "offsetSemantics": "item-index"
+    },
+    "originGitCommit": "06908b6bf5dbb28f963bf01499bd12c65068bd7c",
+    "originGitCommitIsDirty": true,
+    "invokedBy": "manual",
+    "sdkVersion": "0.0.1"
+}

@@ -1,0 +1,11 @@
+export type { AddTagsRequest } from "./AddTagsRequest.js";
+export type { DeleteContactRequest } from "./DeleteContactRequest.js";
+export type { ExportContactsRequest } from "./ExportContactsRequest.js";
+export type { GetContactCallsRequest } from "./GetContactCallsRequest.js";
+export type { GetContactRequest } from "./GetContactRequest.js";
+export type { ImportRequest } from "./ImportRequest.js";
+export type { ListContactsRequest } from "./ListContactsRequest.js";
+export type { RemoveTagsRequest } from "./RemoveTagsRequest.js";
+export type { RestoreContactRequest } from "./RestoreContactRequest.js";
+export type { SearchByPhoneRequest } from "./SearchByPhoneRequest.js";
+export type { UpdateContactRequest } from "./UpdateContactRequest.js";
