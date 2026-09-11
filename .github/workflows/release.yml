@@ -19,14 +19,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: pnpm
       # Trusted Publishing (OIDC) needs npm CLI >= 11.5.1; Node 22 bundles 10.x.
       - run: npm install -g npm@latest
-      - run: npm ci || npm install
-      - run: npm run build
-      - run: npm test --if-present
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test:unit
       - name: Check tag matches package.json version
         run: |
           tag="${GITHUB_REF_NAME#v}"
