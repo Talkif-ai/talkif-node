@@ -108,7 +108,33 @@ describe("BillingClient", () => {
         const server = mockServerPool.createServer();
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { meta: { limit: 20, offset: 0, total: 142 } };
+        const rawResponseBody = {
+            charges: [
+                {
+                    chargeType: "call_usage",
+                    chargeTypeDisplay: "Call Usage",
+                    contactName: "Jane Smith",
+                    createdAt: "2026-01-15T10:30:00Z",
+                    description: "Call to Jane Smith via +15551234567 (Sales Flow)",
+                    failureCode: "failureCode",
+                    failureReason: "failureReason",
+                    flowName: "Sales Flow",
+                    icon: "phone",
+                    id: "550e8400-e29b-41d4-a716-446655440000",
+                    phoneNumber: "+15551234567",
+                    referenceId: "550e8400-e29b-41d4-a716-446655440000",
+                    referenceType: "call",
+                    refundedMicrocents: 0,
+                    status: "pending",
+                    statusDisplay: "Completed",
+                    subtotalMicrocents: 50000,
+                    taxMicrocents: 0,
+                    totalMicrocents: 50000,
+                    totalUsd: 1.1,
+                },
+            ],
+            meta: { limit: 20, offset: 0, total: 142 },
+        };
 
         server
             .mockEndpoint()
@@ -648,7 +674,27 @@ describe("BillingClient", () => {
         const server = mockServerPool.createServer();
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { meta: { limit: 20, offset: 0, total: 142 } };
+        const rawResponseBody = {
+            invoices: [
+                {
+                    amountDue: 5000,
+                    amountPaid: 5000,
+                    billingReason: "subscription_cycle",
+                    createdAt: "2026-01-15T10:30:00Z",
+                    currency: "usd",
+                    dueDate: "2026-02-01T00:00:00Z",
+                    hostedInvoiceUrl: "https://invoice.stripe.com/i/acct_1234/inv_5678",
+                    id: "550e8400-e29b-41d4-a716-446655440000",
+                    invoicePdfUrl: "https://pay.stripe.com/invoice/acct_1234/inv_5678/pdf",
+                    paidAt: "2026-01-15T10:35:00Z",
+                    periodEnd: "2026-02-01T00:00:00Z",
+                    periodStart: "2026-01-01T00:00:00Z",
+                    status: "draft",
+                    stripeInvoiceId: "in_1NVChN2eZvKYlo2CrbkAlkmh",
+                },
+            ],
+            meta: { limit: 20, offset: 0, total: 142 },
+        };
 
         server
             .mockEndpoint()
@@ -882,7 +928,23 @@ describe("BillingClient", () => {
         const server = mockServerPool.createServer();
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { meta: { limit: 20, offset: 0, total: 142 } };
+        const rawResponseBody = {
+            meta: { limit: 20, offset: 0, total: 142 },
+            transactions: [
+                {
+                    amount: "-0.05",
+                    balanceAfter: "99.95",
+                    balanceBefore: "100.00",
+                    createdAt: "2026-01-15T10:30:00Z",
+                    description: "Call usage charge",
+                    id: "550e8400-e29b-41d4-a716-446655440000",
+                    referenceId: "550e8400-e29b-41d4-a716-446655440000",
+                    referenceType: "call",
+                    status: "pending",
+                    transactionType: "subscription_grant",
+                },
+            ],
+        };
 
         server
             .mockEndpoint()

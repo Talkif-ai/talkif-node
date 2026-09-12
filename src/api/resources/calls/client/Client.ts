@@ -151,6 +151,7 @@ export class CallsClient {
     /**
      * GET /api/v1/calls/active
      *
+     * @param {Talkif.GetActiveCallsRequest} request
      * @param {CallsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Talkif.UnauthorizedError}
@@ -164,14 +165,21 @@ export class CallsClient {
      *     await client.calls.getActiveCalls()
      */
     public getActiveCalls(
+        request: Talkif.GetActiveCallsRequest = {},
         requestOptions?: CallsClient.RequestOptions,
-    ): core.HttpResponsePromise<Talkif.CallResponse[]> {
-        return core.HttpResponsePromise.fromPromise(this.__getActiveCalls(requestOptions));
+    ): core.HttpResponsePromise<Talkif.CallListResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__getActiveCalls(request, requestOptions));
     }
 
     private async __getActiveCalls(
+        request: Talkif.GetActiveCallsRequest = {},
         requestOptions?: CallsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Talkif.CallResponse[]>> {
+    ): Promise<core.WithRawResponse<Talkif.CallListResponse>> {
+        const { limit, offset } = request;
+        const _queryParams: Record<string, unknown> = {
+            limit,
+            offset,
+        };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -187,7 +195,11 @@ export class CallsClient {
             ),
             method: "GET",
             headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -195,7 +207,7 @@ export class CallsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Talkif.CallResponse[], rawResponse: _response.rawResponse };
+            return { data: _response.body as Talkif.CallListResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -235,6 +247,7 @@ export class CallsClient {
     /**
      * GET /api/v1/calls/history
      *
+     * @param {Talkif.GetCallHistoryRequest} request
      * @param {CallsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Talkif.UnauthorizedError}
@@ -245,17 +258,56 @@ export class CallsClient {
      * @throws {@link errors.TalkifTimeoutError}
      *
      * @example
-     *     await client.calls.getCallHistory()
+     *     await client.calls.getCallHistory({
+     *         limit: 1,
+     *         offset: 1
+     *     })
      */
     public getCallHistory(
+        request: Talkif.GetCallHistoryRequest,
         requestOptions?: CallsClient.RequestOptions,
     ): core.HttpResponsePromise<Talkif.CallListResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__getCallHistory(requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__getCallHistory(request, requestOptions));
     }
 
     private async __getCallHistory(
+        request: Talkif.GetCallHistoryRequest,
         requestOptions?: CallsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Talkif.CallListResponse>> {
+        const {
+            limit,
+            offset,
+            startDate,
+            endDate,
+            status,
+            direction,
+            source,
+            phoneNumber,
+            isLead,
+            flowId,
+            contactId,
+            scheduleId,
+            campaignId,
+            providerType,
+            search,
+        } = request;
+        const _queryParams: Record<string, unknown> = {
+            limit,
+            offset,
+            startDate: startDate != null ? startDate : undefined,
+            endDate: endDate != null ? endDate : undefined,
+            status: status != null ? status : undefined,
+            direction: direction != null ? direction : undefined,
+            source: source != null ? source : undefined,
+            phoneNumber,
+            isLead,
+            flowId,
+            contactId,
+            scheduleId,
+            campaignId,
+            providerType: providerType != null ? providerType : undefined,
+            search,
+        };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -271,7 +323,11 @@ export class CallsClient {
             ),
             method: "GET",
             headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

@@ -31,6 +31,7 @@ export class FlowsClient {
      *
      * Returns lightweight flow list with connected phones.
      *
+     * @param {Talkif.ListFlowsRequest} request
      * @param {FlowsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Talkif.UnauthorizedError}
@@ -43,13 +44,22 @@ export class FlowsClient {
      * @example
      *     await client.flows.listFlows()
      */
-    public listFlows(requestOptions?: FlowsClient.RequestOptions): core.HttpResponsePromise<Talkif.PaginatedResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__listFlows(requestOptions));
+    public listFlows(
+        request: Talkif.ListFlowsRequest = {},
+        requestOptions?: FlowsClient.RequestOptions,
+    ): core.HttpResponsePromise<Talkif.FlowListResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__listFlows(request, requestOptions));
     }
 
     private async __listFlows(
+        request: Talkif.ListFlowsRequest = {},
         requestOptions?: FlowsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Talkif.PaginatedResponse>> {
+    ): Promise<core.WithRawResponse<Talkif.FlowListResponse>> {
+        const { limit, offset } = request;
+        const _queryParams: Record<string, unknown> = {
+            limit,
+            offset,
+        };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -65,7 +75,11 @@ export class FlowsClient {
             ),
             method: "GET",
             headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -73,7 +87,7 @@ export class FlowsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Talkif.PaginatedResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Talkif.FlowListResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

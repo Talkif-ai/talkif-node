@@ -9,7 +9,25 @@ describe("FlowFunctionsClient", () => {
         const server = mockServerPool.createServer();
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { meta: { limit: 20, offset: 0, total: 142 } };
+        const rawResponseBody = {
+            functions: [
+                {
+                    accountId: "550e8400-e29b-41d4-a716-446655440000",
+                    createdAt: "2026-01-15T10:30:00Z",
+                    description: "Create a new customer order",
+                    hasWebhookHeaders: true,
+                    id: "550e8400-e29b-41d4-a716-446655440000",
+                    isActive: true,
+                    name: "create_order",
+                    paramBindings: { key: "value" },
+                    request: { method: "POST", url: "https://api.example.com/orders/{orderId}" },
+                    slug: "create-order",
+                    timeoutMs: 5000,
+                    updatedAt: "2026-01-20T14:00:00Z",
+                },
+            ],
+            meta: { limit: 20, offset: 0, total: 142 },
+        };
 
         server
             .mockEndpoint()
