@@ -45,14 +45,14 @@ export class FlowFunctionsClient {
     public listFlowFunctions(
         request: Talkif.ListFlowFunctionsRequest = {},
         requestOptions?: FlowFunctionsClient.RequestOptions,
-    ): core.HttpResponsePromise<Talkif.PaginatedResponse> {
+    ): core.HttpResponsePromise<Talkif.FlowFunctionListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__listFlowFunctions(request, requestOptions));
     }
 
     private async __listFlowFunctions(
         request: Talkif.ListFlowFunctionsRequest = {},
         requestOptions?: FlowFunctionsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Talkif.PaginatedResponse>> {
+    ): Promise<core.WithRawResponse<Talkif.FlowFunctionListResponse>> {
         const { limit, offset } = request;
         const _queryParams: Record<string, unknown> = {
             limit,
@@ -85,7 +85,7 @@ export class FlowFunctionsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Talkif.PaginatedResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Talkif.FlowFunctionListResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

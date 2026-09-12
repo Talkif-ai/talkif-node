@@ -288,81 +288,89 @@ describe("CallsClient", () => {
         const server = mockServerPool.createServer();
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = [
-            {
-                accountId: "550e8400-e29b-41d4-a716-446655440000",
-                agentConnectedAt: "2024-01-15T09:30:00Z",
-                agentDisconnectedAt: "2024-01-15T09:30:00Z",
-                agentStatus: "pending",
-                botSpeechSecs: 78.2,
-                callSid: "CA1234567890abcdef1234567890abcdef",
-                campaignId: "campaignId",
-                completionTokens: 512,
-                contact: {
-                    company: "Acme Corp",
+        const rawResponseBody = {
+            calls: [
+                {
+                    accountId: "550e8400-e29b-41d4-a716-446655440000",
+                    agentConnectedAt: "2024-01-15T09:30:00Z",
+                    agentDisconnectedAt: "2024-01-15T09:30:00Z",
+                    agentStatus: "pending",
+                    botSpeechSecs: 78.2,
+                    callSid: "CA1234567890abcdef1234567890abcdef",
+                    campaignId: "campaignId",
+                    completionTokens: 512,
+                    contact: {
+                        company: "Acme Corp",
+                        id: "550e8400-e29b-41d4-a716-446655440000",
+                        name: "Jane Smith",
+                        tags: ["vip", "priority"],
+                    },
+                    cost: "0.053200",
+                    createdAt: "2026-01-15T10:30:00Z",
+                    dataRetainedAt: "2024-01-15T09:30:00Z",
+                    direction: "inbound",
+                    duration: 125,
+                    endReason: "caller_hangup",
+                    endedAt: "2024-01-15T09:30:00Z",
+                    failureCode: "capacity_limit",
+                    failureReason: "Recipient did not answer",
+                    firstSpeechMs: 1250,
+                    flowId: "flowId",
+                    fromNumber: "+15559876543",
+                    functionCallCount: 3,
+                    functionCallTotalMs: 1730,
                     id: "550e8400-e29b-41d4-a716-446655440000",
-                    name: "Jane Smith",
-                    tags: ["vip", "priority"],
+                    interruptedTurns: 2,
+                    isAnalyzed: true,
+                    isLead: true,
+                    isRecorded: true,
+                    promptTokens: 2048,
+                    providerType: "twilio",
+                    queueInfo: {
+                        attemptCount: 0,
+                        estimatedWaitSeconds: 30,
+                        position: 3,
+                        queueId: "550e8400-e29b-41d4-a716-446655440000",
+                        queuedAt: "2026-01-15T10:30:00Z",
+                        status: "pending",
+                    },
+                    recordingDurationSecs: 120.5,
+                    recordingExpiresAt: "2024-01-15T09:30:00Z",
+                    recordingFileSizeBytes: 1048576,
+                    recordingStatus: "ready",
+                    recordingStorageCost: "0.000150",
+                    scheduleId: "scheduleId",
+                    source: "direct",
+                    startedAt: "2024-01-15T09:30:00Z",
+                    status: "queued",
+                    telephonyStatus: "initiating",
+                    toNumber: "+15551234567",
+                    triggerDetail: "Spring promo form",
+                    ttsCharacters: 3200,
+                    turnCount: 12,
+                    userSpeechSecs: 45.5,
+                    voicemailDetectedAt: "2024-01-15T09:30:00Z",
+                    voicemailStatus: "voicemail_detected",
                 },
-                cost: "0.053200",
-                createdAt: "2026-01-15T10:30:00Z",
-                dataRetainedAt: "2024-01-15T09:30:00Z",
-                direction: "inbound",
-                duration: 125,
-                endReason: "caller_hangup",
-                endedAt: "2024-01-15T09:30:00Z",
-                failureCode: "capacity_limit",
-                failureReason: "Recipient did not answer",
-                firstSpeechMs: 1250,
-                flowId: "flowId",
-                fromNumber: "+15559876543",
-                functionCallCount: 3,
-                functionCallTotalMs: 1730,
-                id: "550e8400-e29b-41d4-a716-446655440000",
-                interruptedTurns: 2,
-                isAnalyzed: true,
-                isLead: true,
-                isRecorded: true,
-                promptTokens: 2048,
-                providerType: "twilio",
-                queueInfo: {
-                    attemptCount: 0,
-                    estimatedWaitSeconds: 30,
-                    position: 3,
-                    queueId: "550e8400-e29b-41d4-a716-446655440000",
-                    queuedAt: "2026-01-15T10:30:00Z",
-                    status: "pending",
-                },
-                recordingDurationSecs: 120.5,
-                recordingExpiresAt: "2024-01-15T09:30:00Z",
-                recordingFileSizeBytes: 1048576,
-                recordingStatus: "ready",
-                recordingStorageCost: "0.000150",
-                scheduleId: "scheduleId",
-                source: "direct",
-                startedAt: "2024-01-15T09:30:00Z",
-                status: "queued",
-                telephonyStatus: "initiating",
-                toNumber: "+15551234567",
-                triggerDetail: "Spring promo form",
-                ttsCharacters: 3200,
-                turnCount: 12,
-                userSpeechSecs: 45.5,
-                voicemailDetectedAt: "2024-01-15T09:30:00Z",
-                voicemailStatus: "voicemail_detected",
-            },
-        ];
+            ],
+            meta: { limit: 20, offset: 0, total: 142 },
+        };
 
         server
-            .mockEndpoint()
+            .mockEndpoint({ once: false })
             .get("/api/v1/calls/active")
             .respondWith()
             .statusCode(200)
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.calls.getActiveCalls();
-        expect(response).toEqual(rawResponseBody);
+        const expected = rawResponseBody;
+        const page = await client.calls.getActiveCalls();
+
+        expect(expected.calls).toEqual(page.data);
+        expect(page.hasNextPage()).toBe(true);
+        const nextPage = await page.getNextPage();
+        expect(expected.calls).toEqual(nextPage.data);
     });
 
     test("get_active_calls (2)", async () => {
@@ -514,15 +522,20 @@ describe("CallsClient", () => {
         };
 
         server
-            .mockEndpoint()
+            .mockEndpoint({ once: false })
             .get("/api/v1/calls/history")
             .respondWith()
             .statusCode(200)
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.calls.getCallHistory();
-        expect(response).toEqual(rawResponseBody);
+        const expected = rawResponseBody;
+        const page = await client.calls.getCallHistory();
+
+        expect(expected.calls).toEqual(page.data);
+        expect(page.hasNextPage()).toBe(true);
+        const nextPage = await page.getNextPage();
+        expect(expected.calls).toEqual(nextPage.data);
     });
 
     test("get_call_history (2)", async () => {

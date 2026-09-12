@@ -44,14 +44,14 @@ export class PhoneProvidersClient {
     public listPhoneProviders(
         request: Talkif.ListPhoneProvidersRequest = {},
         requestOptions?: PhoneProvidersClient.RequestOptions,
-    ): core.HttpResponsePromise<Talkif.PhoneProviderResponse[]> {
+    ): core.HttpResponsePromise<Talkif.PhoneProviderListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__listPhoneProviders(request, requestOptions));
     }
 
     private async __listPhoneProviders(
         request: Talkif.ListPhoneProvidersRequest = {},
         requestOptions?: PhoneProvidersClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Talkif.PhoneProviderResponse[]>> {
+    ): Promise<core.WithRawResponse<Talkif.PhoneProviderListResponse>> {
         const { limit, offset } = request;
         const _queryParams: Record<string, unknown> = {
             limit,
@@ -84,7 +84,7 @@ export class PhoneProvidersClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Talkif.PhoneProviderResponse[], rawResponse: _response.rawResponse };
+            return { data: _response.body as Talkif.PhoneProviderListResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

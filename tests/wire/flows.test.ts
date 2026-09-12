@@ -9,7 +9,35 @@ describe("FlowsClient", () => {
         const server = mockServerPool.createServer();
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { meta: { limit: 20, offset: 0, total: 142 } };
+        const rawResponseBody = {
+            flows: [
+                {
+                    accountId: "550e8400-e29b-41d4-a716-446655440000",
+                    analysisOverride: "use_account_default",
+                    connectedPhones: [
+                        {
+                            friendlyName: "Main Office Line",
+                            id: "550e8400-e29b-41d4-a716-446655440000",
+                            phoneNumber: "+15551234567",
+                        },
+                    ],
+                    createdAt: "2026-01-15T10:30:00Z",
+                    description: "Automated appointment reminder calls",
+                    id: "550e8400-e29b-41d4-a716-446655440000",
+                    name: "Appointment Reminder",
+                    nodeCount: 5,
+                    publishedAt: "2024-01-15T09:30:00Z",
+                    recordingOverride: "use_account_default",
+                    status: "DRAFT",
+                    tags: ["healthcare", "scheduling"],
+                    updatedAt: "2026-01-20T14:00:00Z",
+                    version: "1.2.0",
+                    versions: [{ publishedAt: "2026-01-15T10:30:00Z", version: "1.2.0" }],
+                    voicemailEnabled: true,
+                },
+            ],
+            meta: { limit: 20, offset: 0, total: 142 },
+        };
 
         server.mockEndpoint().get("/api/v1/flows").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 

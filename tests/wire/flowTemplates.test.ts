@@ -9,7 +9,31 @@ describe("FlowTemplatesClient", () => {
         const server = mockServerPool.createServer();
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = { meta: { limit: 20, offset: 0, total: 142 } };
+        const rawResponseBody = {
+            meta: { limit: 20, offset: 0, total: 142 },
+            templates: [
+                {
+                    accountId: "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+                    category: "appointment",
+                    createdAt: "2026-01-15T10:30:00Z",
+                    createdBy: "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+                    definition: { key: "value" },
+                    description: "Automated appointment confirmation and rescheduling flow",
+                    displayOrder: 1,
+                    edges: { key: "value" },
+                    icon: "calendar",
+                    id: "550e8400-e29b-41d4-a716-446655440000",
+                    initialNode: "main_agent_1",
+                    isActive: true,
+                    name: "Appointment Reminder",
+                    nodes: { key: "value" },
+                    previewImageUrl: "https://cdn.talkif.com/templates/appointment-reminder.png",
+                    slug: "appointment-reminder",
+                    tags: ["healthcare", "scheduling"],
+                    updatedAt: "2026-02-20T14:45:00Z",
+                },
+            ],
+        };
 
         server
             .mockEndpoint()
