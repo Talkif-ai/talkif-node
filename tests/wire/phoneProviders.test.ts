@@ -9,19 +9,22 @@ describe("PhoneProvidersClient", () => {
         const server = mockServerPool.createServer();
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = [
-            {
-                accountId: "accountId",
-                createdAt: "2026-01-15T10:30:00Z",
-                id: "550e8400-e29b-41d4-a716-446655440000",
-                isActive: true,
-                isSystemProvider: false,
-                label: "label",
-                providerType: "TWILIO",
-                twilioRegion: "twilioRegion",
-                updatedAt: "2026-01-15T10:30:00Z",
-            },
-        ];
+        const rawResponseBody = {
+            meta: { limit: 20, offset: 0, total: 142 },
+            providers: [
+                {
+                    accountId: "accountId",
+                    createdAt: "2026-01-15T10:30:00Z",
+                    id: "550e8400-e29b-41d4-a716-446655440000",
+                    isActive: true,
+                    isSystemProvider: false,
+                    label: "label",
+                    providerType: "TWILIO",
+                    twilioRegion: "twilioRegion",
+                    updatedAt: "2026-01-15T10:30:00Z",
+                },
+            ],
+        };
 
         server
             .mockEndpoint()

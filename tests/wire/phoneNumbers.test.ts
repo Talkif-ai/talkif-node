@@ -9,39 +9,37 @@ describe("PhoneNumbersClient", () => {
         const server = mockServerPool.createServer();
         const client = new TalkifClient({ maxRetries: 0, token: "test", environment: server.baseUrl });
 
-        const rawResponseBody = [
-            {
-                accountId: "550e8400-e29b-41d4-a716-446655440000",
-                billingStatus: "active",
-                canInitiateCalls: true,
-                capabilities: ["SMS"],
-                channelType: "pstn",
-                connectedAt: "2024-01-15T09:30:00Z",
-                connectedFlow: {
-                    description: "description",
+        const rawResponseBody = {
+            meta: { limit: 20, offset: 0, total: 142 },
+            phoneNumbers: [
+                {
+                    accountId: "550e8400-e29b-41d4-a716-446655440000",
+                    billingStatus: "active",
+                    canInitiateCalls: true,
+                    capabilities: ["SMS"],
+                    channelType: "pstn",
+                    connectedAt: "2024-01-15T09:30:00Z",
+                    connectedFlow: { id: "550e8400-e29b-41d4-a716-446655440000", name: "Appointment Reminder" },
+                    createdAt: "2026-01-15T10:30:00Z",
+                    friendlyName: "friendlyName",
                     id: "550e8400-e29b-41d4-a716-446655440000",
-                    name: "Appointment Reminder",
-                    publishedAt: "2024-01-15T09:30:00Z",
+                    isVerified: true,
+                    monthlyCost: "1.00",
+                    nextBillingDate: "2024-01-15T09:30:00Z",
+                    phoneNumber: "+15551234567",
+                    providerId: "550e8400-e29b-41d4-a716-446655440000",
+                    providerPhoneId: "PN1234567890abcdef1234567890abcdef",
+                    purchasedAt: "2026-01-15T10:30:00Z",
+                    recordingOverride: "do-not-record",
+                    releasedAt: "2024-01-15T09:30:00Z",
+                    status: "ACTIVE",
+                    twilioEdge: "ashburn",
+                    twilioRegion: "us1",
+                    updatedAt: "2026-01-15T10:30:00Z",
+                    verifiedAt: "2024-01-15T09:30:00Z",
                 },
-                createdAt: "2026-01-15T10:30:00Z",
-                friendlyName: "friendlyName",
-                id: "550e8400-e29b-41d4-a716-446655440000",
-                isVerified: true,
-                monthlyCost: "1.00",
-                nextBillingDate: "2024-01-15T09:30:00Z",
-                phoneNumber: "+15551234567",
-                providerId: "550e8400-e29b-41d4-a716-446655440000",
-                providerPhoneId: "PN1234567890abcdef1234567890abcdef",
-                purchasedAt: "2026-01-15T10:30:00Z",
-                recordingOverride: "do-not-record",
-                releasedAt: "2024-01-15T09:30:00Z",
-                status: "ACTIVE",
-                twilioEdge: "ashburn",
-                twilioRegion: "us1",
-                updatedAt: "2026-01-15T10:30:00Z",
-                verifiedAt: "2024-01-15T09:30:00Z",
-            },
-        ];
+            ],
+        };
 
         server
             .mockEndpoint()

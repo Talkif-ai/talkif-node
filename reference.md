@@ -55,7 +55,7 @@ await client.billing.getBalanceSummary();
 </dl>
 </details>
 
-<details><summary><code>client.billing.<a href="/src/api/resources/billing/client/Client.ts">listCharges</a>({ ...params }) -> Talkif.PaginatedResponse</code></summary>
+<details><summary><code>client.billing.<a href="/src/api/resources/billing/client/Client.ts">listCharges</a>({ ...params }) -> Talkif.ChargeListResponse</code></summary>
 <dl>
 <dd>
 
@@ -325,7 +325,7 @@ await client.billing.getBillingCallCostBreakdown({
 </dl>
 </details>
 
-<details><summary><code>client.billing.<a href="/src/api/resources/billing/client/Client.ts">listInvoices</a>({ ...params }) -> Talkif.PaginatedResponse</code></summary>
+<details><summary><code>client.billing.<a href="/src/api/resources/billing/client/Client.ts">listInvoices</a>({ ...params }) -> Talkif.InvoiceListResponse</code></summary>
 <dl>
 <dd>
 
@@ -453,7 +453,7 @@ await client.billing.getInvoice({
 </dl>
 </details>
 
-<details><summary><code>client.billing.<a href="/src/api/resources/billing/client/Client.ts">getTransactionHistory</a>({ ...params }) -> Talkif.PaginatedResponse</code></summary>
+<details><summary><code>client.billing.<a href="/src/api/resources/billing/client/Client.ts">getTransactionHistory</a>({ ...params }) -> Talkif.BalanceTransactionListResponse</code></summary>
 <dl>
 <dd>
 
@@ -650,7 +650,7 @@ await client.calls.makeCall({
 </dl>
 </details>
 
-<details><summary><code>client.calls.<a href="/src/api/resources/calls/client/Client.ts">getActiveCalls</a>() -> Talkif.CallResponse[]</code></summary>
+<details><summary><code>client.calls.<a href="/src/api/resources/calls/client/Client.ts">getActiveCalls</a>({ ...params }) -> core.Page&lt;Talkif.CallResponse, Talkif.CallListResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -677,7 +677,19 @@ GET /api/v1/calls/active
 <dd>
 
 ```typescript
-await client.calls.getActiveCalls();
+const pageableResponse = await client.calls.getActiveCalls();
+for await (const item of pageableResponse) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+let page = await client.calls.getActiveCalls();
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
+
+// You can also access the underlying response
+const response = page.response;
 
 ```
 </dd>
@@ -689,6 +701,14 @@ await client.calls.getActiveCalls();
 
 <dl>
 <dd>
+
+<dl>
+<dd>
+
+**request:** `Talkif.GetActiveCallsRequest` 
+    
+</dd>
+</dl>
 
 <dl>
 <dd>
@@ -705,7 +725,7 @@ await client.calls.getActiveCalls();
 </dl>
 </details>
 
-<details><summary><code>client.calls.<a href="/src/api/resources/calls/client/Client.ts">getCallHistory</a>() -> Talkif.CallListResponse</code></summary>
+<details><summary><code>client.calls.<a href="/src/api/resources/calls/client/Client.ts">getCallHistory</a>({ ...params }) -> core.Page&lt;Talkif.CallResponse, Talkif.CallListResponse&gt;</code></summary>
 <dl>
 <dd>
 
@@ -732,7 +752,19 @@ GET /api/v1/calls/history
 <dd>
 
 ```typescript
-await client.calls.getCallHistory();
+const pageableResponse = await client.calls.getCallHistory();
+for await (const item of pageableResponse) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+let page = await client.calls.getCallHistory();
+while (page.hasNextPage()) {
+    page = page.getNextPage();
+}
+
+// You can also access the underlying response
+const response = page.response;
 
 ```
 </dd>
@@ -744,6 +776,14 @@ await client.calls.getCallHistory();
 
 <dl>
 <dd>
+
+<dl>
+<dd>
+
+**request:** `Talkif.GetCallHistoryRequest` 
+    
+</dd>
+</dl>
 
 <dl>
 <dd>
@@ -3266,7 +3306,7 @@ await client.errors.errorCatalog();
 </details>
 
 ## Flow Functions
-<details><summary><code>client.flowFunctions.<a href="/src/api/resources/flowFunctions/client/Client.ts">listFlowFunctions</a>({ ...params }) -> Talkif.PaginatedResponse</code></summary>
+<details><summary><code>client.flowFunctions.<a href="/src/api/resources/flowFunctions/client/Client.ts">listFlowFunctions</a>({ ...params }) -> Talkif.FlowFunctionListResponse</code></summary>
 <dl>
 <dd>
 
@@ -3595,7 +3635,7 @@ await client.flowFunctions.deleteFlowFunction({
 </details>
 
 ## Flow Templates
-<details><summary><code>client.flowTemplates.<a href="/src/api/resources/flowTemplates/client/Client.ts">listSystemTemplates</a>({ ...params }) -> Talkif.PaginatedResponse</code></summary>
+<details><summary><code>client.flowTemplates.<a href="/src/api/resources/flowTemplates/client/Client.ts">listSystemTemplates</a>({ ...params }) -> Talkif.FlowTemplateListResponse</code></summary>
 <dl>
 <dd>
 
@@ -3792,7 +3832,7 @@ await client.flowTemplates.instantiateTemplate({
 </details>
 
 ## Flows
-<details><summary><code>client.flows.<a href="/src/api/resources/flows/client/Client.ts">listFlows</a>() -> Talkif.PaginatedResponse</code></summary>
+<details><summary><code>client.flows.<a href="/src/api/resources/flows/client/Client.ts">listFlows</a>({ ...params }) -> Talkif.FlowListResponse</code></summary>
 <dl>
 <dd>
 
@@ -3833,6 +3873,14 @@ await client.flows.listFlows();
 
 <dl>
 <dd>
+
+<dl>
+<dd>
+
+**request:** `Talkif.ListFlowsRequest` 
+    
+</dd>
+</dl>
 
 <dl>
 <dd>
@@ -4510,7 +4558,7 @@ await client.aiModels.listTtsVoices();
 </details>
 
 ## Phone Numbers
-<details><summary><code>client.phoneNumbers.<a href="/src/api/resources/phoneNumbers/client/Client.ts">listPhoneNumbers</a>({ ...params }) -> Talkif.PhoneNumberResponse[]</code></summary>
+<details><summary><code>client.phoneNumbers.<a href="/src/api/resources/phoneNumbers/client/Client.ts">listPhoneNumbers</a>({ ...params }) -> Talkif.PhoneNumberListResponse</code></summary>
 <dl>
 <dd>
 
@@ -5187,7 +5235,7 @@ await client.phoneNumbers.disconnectFlow({
 </details>
 
 ## Phone Providers
-<details><summary><code>client.phoneProviders.<a href="/src/api/resources/phoneProviders/client/Client.ts">listPhoneProviders</a>({ ...params }) -> Talkif.PhoneProviderResponse[]</code></summary>
+<details><summary><code>client.phoneProviders.<a href="/src/api/resources/phoneProviders/client/Client.ts">listPhoneProviders</a>({ ...params }) -> Talkif.PhoneProviderListResponse</code></summary>
 <dl>
 <dd>
 

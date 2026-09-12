@@ -41,14 +41,14 @@ export class FlowTemplatesClient {
     public listSystemTemplates(
         request: Talkif.ListSystemTemplatesRequest = {},
         requestOptions?: FlowTemplatesClient.RequestOptions,
-    ): core.HttpResponsePromise<Talkif.PaginatedResponse> {
+    ): core.HttpResponsePromise<Talkif.FlowTemplateListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__listSystemTemplates(request, requestOptions));
     }
 
     private async __listSystemTemplates(
         request: Talkif.ListSystemTemplatesRequest = {},
         requestOptions?: FlowTemplatesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Talkif.PaginatedResponse>> {
+    ): Promise<core.WithRawResponse<Talkif.FlowTemplateListResponse>> {
         const { category, limit, offset } = request;
         const _queryParams: Record<string, unknown> = {
             category,
@@ -77,7 +77,7 @@ export class FlowTemplatesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Talkif.PaginatedResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Talkif.FlowTemplateListResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

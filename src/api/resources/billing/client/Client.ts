@@ -130,14 +130,14 @@ export class BillingClient {
     public listCharges(
         request: Talkif.ListChargesRequest = {},
         requestOptions?: BillingClient.RequestOptions,
-    ): core.HttpResponsePromise<Talkif.PaginatedResponse> {
+    ): core.HttpResponsePromise<Talkif.ChargeListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__listCharges(request, requestOptions));
     }
 
     private async __listCharges(
         request: Talkif.ListChargesRequest = {},
         requestOptions?: BillingClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Talkif.PaginatedResponse>> {
+    ): Promise<core.WithRawResponse<Talkif.ChargeListResponse>> {
         const { limit, offset, charge_type: chargeType, status, start_date: startDate, end_date: endDate } = request;
         const _queryParams: Record<string, unknown> = {
             limit,
@@ -174,7 +174,7 @@ export class BillingClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Talkif.PaginatedResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Talkif.ChargeListResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -538,14 +538,14 @@ export class BillingClient {
     public listInvoices(
         request: Talkif.ListInvoicesRequest = {},
         requestOptions?: BillingClient.RequestOptions,
-    ): core.HttpResponsePromise<Talkif.PaginatedResponse> {
+    ): core.HttpResponsePromise<Talkif.InvoiceListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__listInvoices(request, requestOptions));
     }
 
     private async __listInvoices(
         request: Talkif.ListInvoicesRequest = {},
         requestOptions?: BillingClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Talkif.PaginatedResponse>> {
+    ): Promise<core.WithRawResponse<Talkif.InvoiceListResponse>> {
         const { limit, offset } = request;
         const _queryParams: Record<string, unknown> = {
             limit,
@@ -578,7 +578,7 @@ export class BillingClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Talkif.PaginatedResponse, rawResponse: _response.rawResponse };
+            return { data: _response.body as Talkif.InvoiceListResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -732,14 +732,14 @@ export class BillingClient {
     public getTransactionHistory(
         request: Talkif.GetTransactionHistoryRequest = {},
         requestOptions?: BillingClient.RequestOptions,
-    ): core.HttpResponsePromise<Talkif.PaginatedResponse> {
+    ): core.HttpResponsePromise<Talkif.BalanceTransactionListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__getTransactionHistory(request, requestOptions));
     }
 
     private async __getTransactionHistory(
         request: Talkif.GetTransactionHistoryRequest = {},
         requestOptions?: BillingClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Talkif.PaginatedResponse>> {
+    ): Promise<core.WithRawResponse<Talkif.BalanceTransactionListResponse>> {
         const { limit, offset } = request;
         const _queryParams: Record<string, unknown> = {
             limit,
@@ -772,7 +772,10 @@ export class BillingClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Talkif.PaginatedResponse, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as Talkif.BalanceTransactionListResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
