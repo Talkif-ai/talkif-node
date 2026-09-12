@@ -34,7 +34,15 @@ jobs:
           tag="${GITHUB_REF_NAME#v}"
           pkg="$(node -p "require(\x27./package.json\x27).version")"
           [ "$tag" = "$pkg" ] || { echo "tag v$tag != package.json $pkg"; exit 1; }
+      - name: Skip if this version is already on npm
+        id: exists
+        run: |
+          ver="$(node -p "require(./package.json).version")"
+          if npm view "@talkif/sdk@$ver" version >/dev/null 2>&1; then
+            echo "already published: @talkif/sdk@$ver"; echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
       - name: Publish to npm
+        if: steps.exists.outputs.skip != true
         run: |
           if [[ "$GITHUB_REF_NAME" == *alpha* ]]; then tag=alpha
           elif [[ "$GITHUB_REF_NAME" == *beta* ]]; then tag=beta
